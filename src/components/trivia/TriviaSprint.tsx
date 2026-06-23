@@ -3,7 +3,7 @@
 import { TriviaQuestionCard } from "@/components/trivia/TriviaQuestionCard";
 import { TriviaResultDialog } from "@/components/trivia/TriviaResultDialog";
 import { Country } from "@/lib/countries";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type TriviaSprintProps = {
   country: Country;
@@ -16,11 +16,21 @@ export function TriviaSprint({ country, onFinish }: TriviaSprintProps) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const current = questions[index];
   const finished = index >= questions.length;
+  const hasReportedFinish = useRef(false);
 
   const score = useMemo(
     () => questions.filter((question) => answers[question.id] === question.answer).length,
     [answers, questions],
   );
+
+  useEffect(() => {
+    if (!finished || hasReportedFinish.current) {
+      return;
+    }
+
+    hasReportedFinish.current = true;
+    onFinish?.(score, questions.length);
+  }, [finished, onFinish, questions.length, score]);
 
   if (!current && finished) {
     return <TriviaResultDialog open score={score} total={questions.length} />;
@@ -31,9 +41,6 @@ export function TriviaSprint({ country, onFinish }: TriviaSprintProps) {
   }
 
   const submitAnswer = () => {
-    if (index === questions.length - 1) {
-      onFinish?.(score, questions.length);
-    }
     setIndex((value) => value + 1);
   };
 
@@ -52,7 +59,6 @@ export function TriviaSprint({ country, onFinish }: TriviaSprintProps) {
       >
         {index === questions.length - 1 ? "Finish sprint" : "Next question"}
       </button>
-      {finished ? <TriviaResultDialog open score={score} total={questions.length} /> : null}
     </div>
   );
 }

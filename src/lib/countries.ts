@@ -14,6 +14,7 @@ export type Country = {
   name: string;
   flagEmoji: string;
   flagImageUrl?: string;
+  flagName?: string;
   capital: string;
   region: string;
   subregion?: string;
@@ -42,6 +43,7 @@ export const countries: Record<string, Country> = {
     fifaCode: "ARG",
     name: "Argentina",
     flagEmoji: "🇦🇷",
+    flagName: "Bandera Nacional",
     capital: "Buenos Aires",
     region: "South America",
     subregion: "Southern Cone",
@@ -78,6 +80,7 @@ export const countries: Record<string, Country> = {
     fifaCode: "JPN",
     name: "Japan",
     flagEmoji: "🇯🇵",
+    flagName: "Hinomaru",
     capital: "Tokyo",
     region: "East Asia",
     subregion: "Pacific Rim",

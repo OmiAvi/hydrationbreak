@@ -47,7 +47,11 @@ export function LiveMatchExperience({ match }: LiveMatchExperienceProps) {
     return `${mins}:${secs}`;
   }, [breakSeconds]);
 
-  const learned = [away.funFacts[0], `Tokyo is ${away.name}'s capital.`, `${away.name}'s flag is called Hinomaru.`];
+  const learned = [
+    away.funFacts[0],
+    `${away.capital} is ${away.name}'s capital.`,
+    `${away.name}'s flag is called ${away.flagName ?? "its national flag"}.`,
+  ];
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 p-4 pb-8">
