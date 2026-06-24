@@ -27,12 +27,15 @@ export function HydrationBreakTimer({ match }: HydrationBreakTimerProps) {
   }, [match]);
 
   return (
-    <section className="rounded-2xl border border-[var(--card-border)] bg-white p-5 shadow-sm">
-      <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">Hydration Break soon</p>
-      <p className="mt-2 text-xl font-bold text-[var(--water)]">Next: {nextBreak}&apos;</p>
-      <p className="text-sm text-[var(--muted)]">Estimated in {remainingLabel}</p>
-      <div className="mt-4 h-2 rounded-full bg-[color-mix(in_oklab,var(--water)_16%,white)]">
-        <div className="h-2 w-2/3 rounded-full bg-[var(--water)]" />
+    <section className="overflow-hidden rounded-[1.8rem] border-[3px] border-[#12243a] bg-[#ffd211] shadow-[0_8px_0_rgba(18,36,58,0.08)]">
+      <div className="h-2 bg-[#12243a]" />
+      <div className="p-5">
+        <p className="font-['Impact','Haettenschweiler','Arial_Narrow_Bold',sans-serif] text-sm tracking-[0.18em] text-[#463f34]">HYDRATION BREAK</p>
+        <p className="mt-1 font-['Impact','Haettenschweiler','Arial_Narrow_Bold',sans-serif] text-4xl tracking-[0.04em] text-[#12243a]">{remainingLabel}</p>
+        <p className="mt-1 text-sm font-semibold text-[#463f34]">until minute {nextBreak}&apos;</p>
+        <div className="mt-4 h-2.5 rounded-full bg-[#12243a]/15">
+          <div className="h-2.5 w-2/3 rounded-full bg-[#12243a]" />
+        </div>
       </div>
     </section>
   );
