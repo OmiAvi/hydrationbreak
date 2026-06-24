@@ -87,6 +87,56 @@ export function FIFAMatchCard({
 
   const topStripe = status === "upcoming" && !final ? "bg-[#d6d2ca]" : "bg-[#ef3b2d]";
   const showCenterBadge = status === "halftime" || badgeLabel;
+  const teamCardClassName =
+    "block rounded-[1.3rem] px-3 py-3 transition duration-150 hover:-translate-y-1 hover:bg-[#f7f2e5] hover:shadow-[0_6px_0_rgba(18,36,58,0.08)]";
+
+  const homeTeamContent = (
+    <>
+      <div className="mb-2 flex min-h-12 items-center justify-center text-4xl sm:text-5xl">
+        {homeDisplayFlag ? (
+          <CountryFlag
+            countryName={homeDisplayName}
+            flagEmoji={homeDisplayFlag}
+            flagImageUrl={homeCountry?.flagImageUrl}
+            className="h-12 w-18 sm:h-14 sm:w-20"
+            emojiClassName="text-4xl sm:text-5xl"
+          />
+        ) : (
+          <span className="rounded-xl bg-[#f4efe2] px-3 py-2 text-base font-black text-[#6f6a5d]">
+            {homeCode}
+          </span>
+        )}
+      </div>
+      <p className="font-['Impact','Haettenschweiler','Arial_Narrow_Bold',sans-serif] text-2xl tracking-[0.12em] text-[#12243a]">
+        {homeCode}
+      </p>
+      <p className="mt-2 text-sm font-semibold text-[#6f6a5d]">{homeDisplayName}</p>
+    </>
+  );
+
+  const awayTeamContent = (
+    <>
+      <div className="mb-2 flex min-h-12 items-center justify-center text-4xl sm:text-5xl">
+        {awayDisplayFlag ? (
+          <CountryFlag
+            countryName={awayDisplayName}
+            flagEmoji={awayDisplayFlag}
+            flagImageUrl={awayCountry?.flagImageUrl}
+            className="h-12 w-18 sm:h-14 sm:w-20"
+            emojiClassName="text-4xl sm:text-5xl"
+          />
+        ) : (
+          <span className="rounded-xl bg-[#f4efe2] px-3 py-2 text-base font-black text-[#6f6a5d]">
+            {awayCode}
+          </span>
+        )}
+      </div>
+      <p className="font-['Impact','Haettenschweiler','Arial_Narrow_Bold',sans-serif] text-2xl tracking-[0.12em] text-[#12243a]">
+        {awayCode}
+      </p>
+      <p className="mt-2 text-sm font-semibold text-[#6f6a5d]">{awayDisplayName}</p>
+    </>
+  );
 
   return (
     <div className="overflow-hidden rounded-[1.8rem] border-[3px] border-[#12243a] bg-white shadow-[0_8px_0_rgba(18,36,58,0.08)]">
@@ -103,33 +153,16 @@ export function FIFAMatchCard({
 
         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
           <div className="flex-1 text-center">
-            <div className="mb-2 flex min-h-12 items-center justify-center text-4xl sm:text-5xl">
-              {homeDisplayFlag ? (
-                <CountryFlag
-                  countryName={homeDisplayName}
-                  flagEmoji={homeDisplayFlag}
-                  flagImageUrl={homeCountry?.flagImageUrl}
-                  className="h-12 w-18 sm:h-14 sm:w-20"
-                  emojiClassName="text-4xl sm:text-5xl"
-                />
-              ) : (
-                <span className="rounded-xl bg-[#f4efe2] px-3 py-2 text-base font-black text-[#6f6a5d]">
-                  {homeCode}
-                </span>
-              )}
-            </div>
-            <p className="font-['Impact','Haettenschweiler','Arial_Narrow_Bold',sans-serif] text-2xl tracking-[0.12em] text-[#12243a]">
-              {homeCode}
-            </p>
-            <p className="mt-2 text-sm font-semibold text-[#6f6a5d]">{homeDisplayName}</p>
             {homeHref ? (
               <Link
                 href={homeHref}
-                className="mt-4 inline-flex rounded-full bg-[#0d6b35] px-4 py-2 text-sm font-black text-white transition hover:bg-[#0b5c2d]"
+                className={teamCardClassName}
               >
-                QUIZ TEAM
+                {homeTeamContent}
               </Link>
-            ) : null}
+            ) : (
+              <div className="rounded-[1.3rem] px-3 py-3">{homeTeamContent}</div>
+            )}
           </div>
 
           <div className="flex flex-col items-center justify-center gap-2">
@@ -144,33 +177,16 @@ export function FIFAMatchCard({
           </div>
 
           <div className="flex-1 text-center">
-            <div className="mb-2 flex min-h-12 items-center justify-center text-4xl sm:text-5xl">
-              {awayDisplayFlag ? (
-                <CountryFlag
-                  countryName={awayDisplayName}
-                  flagEmoji={awayDisplayFlag}
-                  flagImageUrl={awayCountry?.flagImageUrl}
-                  className="h-12 w-18 sm:h-14 sm:w-20"
-                  emojiClassName="text-4xl sm:text-5xl"
-                />
-              ) : (
-                <span className="rounded-xl bg-[#f4efe2] px-3 py-2 text-base font-black text-[#6f6a5d]">
-                  {awayCode}
-                </span>
-              )}
-            </div>
-            <p className="font-['Impact','Haettenschweiler','Arial_Narrow_Bold',sans-serif] text-2xl tracking-[0.12em] text-[#12243a]">
-              {awayCode}
-            </p>
-            <p className="mt-2 text-sm font-semibold text-[#6f6a5d]">{awayDisplayName}</p>
             {awayHref ? (
               <Link
                 href={awayHref}
-                className="mt-4 inline-flex rounded-full bg-[#0d6b35] px-4 py-2 text-sm font-black text-white transition hover:bg-[#0b5c2d]"
+                className={teamCardClassName}
               >
-                QUIZ TEAM
+                {awayTeamContent}
               </Link>
-            ) : null}
+            ) : (
+              <div className="rounded-[1.3rem] px-3 py-3">{awayTeamContent}</div>
+            )}
           </div>
         </div>
       </div>
