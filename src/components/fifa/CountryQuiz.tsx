@@ -14,11 +14,14 @@ export function CountryQuizContent({ countryCode }: CountryQuizContentProps) {
   const country = countries[countryCode];
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [revealedAnswers, setRevealedAnswers] = useState<Record<string, boolean>>({});
 
   const questions = useMemo(() => country?.trivia.slice(0, 4) ?? [], [country]);
   const currentQuestion = questions[index];
   const finished = index >= questions.length;
   const score = questions.filter((question) => answers[question.id] === question.answer).length;
+  const selectedChoice = currentQuestion ? answers[currentQuestion.id] : undefined;
+  const revealed = currentQuestion ? Boolean(revealedAnswers[currentQuestion.id]) : false;
 
   if (!country) {
     return <div className="py-12 text-center">Country not found</div>;
@@ -74,16 +77,24 @@ export function CountryQuizContent({ countryCode }: CountryQuizContentProps) {
             <div className="rounded-[1.45rem] border-[3px] border-[#12243a] bg-white p-5 shadow-[0_8px_0_rgba(18,36,58,0.08)]">
               <TriviaQuestionCard
                 question={currentQuestion}
-                selectedChoice={answers[currentQuestion.id]}
+                selectedChoice={selectedChoice}
+                revealed={revealed}
                 onSelect={(choice) => setAnswers((value) => ({ ...value, [currentQuestion.id]: choice }))}
               />
               <button
                 type="button"
-                disabled={!answers[currentQuestion.id]}
-                onClick={() => setIndex((value) => value + 1)}
+                disabled={!selectedChoice}
+                onClick={() => {
+                  if (!revealed) {
+                    setRevealedAnswers((value) => ({ ...value, [currentQuestion.id]: true }));
+                    return;
+                  }
+
+                  setIndex((value) => value + 1);
+                }}
                 className="mt-4 w-full rounded-[1.2rem] bg-[#ef3b2d] px-4 py-4 font-['Impact','Haettenschweiler','Arial_Narrow_Bold',sans-serif] text-2xl tracking-[0.04em] text-white transition hover:bg-[#d92f22] disabled:cursor-not-allowed disabled:bg-[#d5cec0] disabled:text-white/70"
               >
-                {index === questions.length - 1 ? "START MAP GUESS" : "NEXT QUESTION"}
+                {!revealed ? "SUBMIT ANSWER" : index === questions.length - 1 ? "START MAP GUESS" : "NEXT QUESTION"}
               </button>
             </div>
           </>
